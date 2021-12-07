@@ -1,0 +1,16 @@
+newmtl PolygonPrototype_Global_Grid_05
+Kd 1.0 1.0 1.0
+d 1.0
+
+newmtl PolygonPrototype_Global_Grid_01
+Kd 1.0 1.0 1.0
+d 1.0
+
+newmtl Default-Material
+Kd 1 1 1
+d 1
+
+newmtl PolygonPrototype_Global_Grid_03
+Kd 1.0 1.0 1.0
+d 1.0
+
