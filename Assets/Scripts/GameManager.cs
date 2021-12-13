@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Data")]
     [SerializeField] public GameObject PlayerPrefab;
+    [SerializeField] public GameObject MainPlayer;
     [SerializeField] public Character[] PlayableCharacters;
     public PlayerManager pMan;
 
@@ -58,12 +59,12 @@ public class GameManager : MonoBehaviour
     public void RefreshLevelDependencies()
     {
         cine = GameObject.Find("Camera").GetComponent<CinemachineBrain>();
-        VirtualCamera = GameObject.Find("MainVirtual Camera").GetComponent<CinemachineVirtualCamera>();
+        VirtualCamera = GameObject.Find("MainVirtualCamera").GetComponent<CinemachineVirtualCamera>();
     }
     public void SpawnPlayer()
     {
         PlayerStartTransform = GameObject.Find("PlayerStartPoint").GetComponent<Transform>();
-        GameObject MainPlayer = Instantiate(PlayerPrefab, PlayerStartTransform.transform);
+        MainPlayer = Instantiate(PlayerPrefab, PlayerStartTransform.transform);
 
         //Feed Character on Camera
         VirtualCamera.Follow = MainPlayer.transform;

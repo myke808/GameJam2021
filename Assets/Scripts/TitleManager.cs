@@ -20,6 +20,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] private Button m_btnArcade;
     [SerializeField] private Button m_btnStory;
     [SerializeField] private Button m_btnDebug;
+    [SerializeField] private Button m_btnLevelBuilder;
 
     [Header("Player Screen")]
     [SerializeField] private Button m_Player1;
@@ -33,6 +34,7 @@ public class TitleManager : MonoBehaviour
         m_btnArcade.onClick.AddListener(ButtonManager);
         m_btnStory.onClick.AddListener(ButtonManager);
         m_btnDebug.onClick.AddListener(ButtonManager);
+        m_btnLevelBuilder.onClick.AddListener(ButtonManager);
 
         m_Player1.onClick.AddListener(ButtonManager);
         m_Player2.onClick.AddListener(ButtonManager);
@@ -52,8 +54,9 @@ public class TitleManager : MonoBehaviour
             case "BtnStory":
                 gameMode = GameMode.Story;
                 gMan.CurrentGameMode = GameMode.Story;
-                showStory();
+                //showStory();
                 modeSelected();
+                runMode();
                 break;
             case "BtnDebug":
                 gMan.CurrentGameMode = GameMode.Debug;
@@ -71,6 +74,9 @@ public class TitleManager : MonoBehaviour
                 gMan.chosenPlayer = CharacterSelected.Beat;
                 runMode();
                 break;
+            case "BtnBuilder":
+                SceneManager.LoadScene("LevelBuilder");
+                break;
         }
     }
     void modeSelected()
@@ -86,6 +92,7 @@ public class TitleManager : MonoBehaviour
                 SceneManager.LoadScene("ArcadeMode");
                 break;
             case GameMode.Story:
+                SceneManager.LoadScene("Hub");
                 break;
             case GameMode.Debug:
                 SceneManager.LoadScene("-Debug- Danger Room");

@@ -40,12 +40,15 @@ public class PlayerManager : MonoBehaviour
     float CurrentMoveVelocity;
 
     [Header("Dash Data")]
-    float DashPeriod = 1.5f;
-    float SlidePeriod = 1f;
+    float DashPeriod = 0.5f;
+    float SlidePeriod = 0.5f;
+    float ActionCoolDown = 1f;
+    float CurrActionCoolDown = 1f;
     float CurrDashPeriod;
     float CurrSlidePeriod;
     bool IsSliding = false;
     bool IsDashing = false;
+    bool CanAction = true;
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
@@ -83,6 +86,17 @@ public class PlayerManager : MonoBehaviour
                 myAnimator.SetBool("isSliding", IsSliding);
                 PlayerCollider.height = DefaultColliderHeight;
                 PlayerCollider.center = DefaultColliderY;
+            }
+        }
+        if(!CanAction) //Action Cooldown. Affects Slide and Dash
+        {
+            if (CurrActionCoolDown > 0)
+            {
+                CurrActionCoolDown -= Time.deltaTime;
+            }
+            else
+            {
+                CanAction = true;
             }
         }
     }
@@ -159,7 +173,7 @@ public class PlayerManager : MonoBehaviour
             {
                 CurrentMoveVelocity = 1;
             }
-            Vector2 playerVelocity = new Vector2(CurrentMoveVelocity * runSpeed, myRigidbody.velocity.y);
+            Vector2 playerVelocity = new Vector2(CurrentMoveVelocity * runSpeed + dashSpeed, myRigidbody.velocity.y);
             myRigidbody.velocity = playerVelocity;
             bool playerHasHorizontalSpeed = Mathf.Abs(myRigidbody.velocity.x) > Mathf.Epsilon;
             myAnimator.SetBool("isRunning", playerHasHorizontalSpeed);
@@ -171,13 +185,21 @@ public class PlayerManager : MonoBehaviour
     }
     void OnSlide(InputValue value)
     {
-        Debug.Log("Slide pressed");
-        PlayerCollider.height = 0;
-        PlayerCollider.center = Vector3.zero;
-        CurrSlidePeriod = SlidePeriod;
-        dashSpeed = 10;
-        IsSliding = true;
-        myAnimator.SetBool("isSliding", IsSliding);
+        if(onGround)
+        {
+            if(CanAction)
+            {
+                CurrActionCoolDown = ActionCoolDown;
+                CanAction = false;
+                PlayerCollider.height = 0;
+                PlayerCollider.center = Vector3.zero;
+                CurrSlidePeriod = SlidePeriod;
+                dashSpeed = 10;
+                IsSliding = true;
+                myAnimator.SetBool("isSliding", IsSliding);
+            }
+
+        }
     }
 
     void Dash()
@@ -198,7 +220,7 @@ public class PlayerManager : MonoBehaviour
     {
         if(myRigidbody.velocity.y < fallingThreshold)
         {
-            Debug.Log("is Falling");
+            //Debug.Log("is Falling");
         }
     }
 }

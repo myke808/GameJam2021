@@ -118,14 +118,19 @@ public class ArcadeManager : MonoBehaviour
         GameOn = false;
         StartCoroutine(EndGame());
         gMan.pMan.CanRun = false;
-        //Adding Stats
-        gMan.TimeRan += GameTimeElapsed;
+      
     }
 
     IEnumerator EndGame()
     {
         yield return new WaitForSeconds(1f);
         //Show retry Window
+    }
+
+    void ResultGameManager()
+    {
+        //Adding Stats
+        gMan.TimeRan += GameTimeElapsed;
     }
     IEnumerator RunGame()
     {
